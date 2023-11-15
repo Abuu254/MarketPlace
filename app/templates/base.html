@@ -1,0 +1,105 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - Yale MarketPlace{% else %}{{'Welcome to Yale MarketPlace'}}{% endif %}
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<div class="header">
+    <!-- Text Logo Section -->
+    <div class="logo-section">
+        <a href="{{ url_for('products.search') }}">
+            Yale MarketPlace
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="main-body">
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="my_alert" class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Filter section -->
+        <div class="filter-section">
+            <form method="get" action="{{ url_for('products.search') }}" class="filter-form">
+                <!-- Category Filter -->
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.CategoryID }}">{{ category.CategoryName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Condition Filter -->
+                <div class="form-group">
+                    <label for="condition">Condition:</label>
+                    <select name="condition" id="condition" class="form-control">
+                        <option value="New">New</option>
+                        <option value="Used">Used</option>
+                        <option value="Refurbished">Refurbished</option>
+                    </select>
+                </div>
+
+                <!-- Date Posted Filter -->
+                <div class="form-group">
+                    <label for="dateposted">Date Posted:</label>
+                    <input type="date" name="dateposted" id="dateposted" class="form-control">
+                </div>
+
+                <!-- Status Filter -->
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="sold">Sold</option>
+                        <option value="available">Available</option>
+                    </select>
+                </div>
+
+                <!-- Price Filter -->
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <select name="price" id="price" class="form-control">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+
+
+        <!-- Main content block -->
+        {% block app_content %}
+        <!-- Products or content will be displayed here -->
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+        <!-- Footer content -->
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+{% endblock %}
