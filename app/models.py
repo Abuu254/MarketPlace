@@ -28,11 +28,12 @@ class Product(db.Model):
     SellerID = db.Column(db.Integer, db.ForeignKey('users.UserID'))
     CategoryID = db.Column(db.Integer, db.ForeignKey('categories.CategoryID'))
     ProductName = db.Column(db.String(100))
+    ProductColor = db.Column(db.String(50))
     Description = db.Column(db.String(255))
     Price = db.Column(db.Float)
     Condition = db.Column(db.String(50))
     DatePosted = db.Column(db.DateTime, default=datetime.utcnow)
-    IsSold = db.Column(db.Boolean)
+    IsSold = db.Column(db.Boolean, default=False)
 
     images = db.relationship('Image', backref='product', lazy=True)
 
