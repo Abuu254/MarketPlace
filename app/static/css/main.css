@@ -25,6 +25,16 @@
     padding: 20px 0;
     flex-wrap: wrap;
 }
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+.filters-container .form-group {
+    margin-right: 10px; /* Space between filters */
+}
 
 .filter-form .form-group {
     margin-bottom: 0;
