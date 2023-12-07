@@ -9,6 +9,9 @@ from app.products import bp_products
 from app.models import User, Product, Category, Image, Address
 from app import db
 from sqlalchemy.orm import joinedload
+from werkzeug.utils import secure_filename
+import os
+from flask_login import login_required
 
 @bp_products.route('/')
 @bp_products.route('/index', methods=['GET'])
@@ -49,7 +52,7 @@ def ajax_search():
     if date_posted_str:
         try:
             date_posted = datetime.strptime(date_posted_str, '%Y-%m-%d')
-            query_obj = query_obj.filter(Product.DatePosted >= date_posted)
+            query_obj = query_obj.filter(Product.DatePosted == date_posted)
         except ValueError:
             pass  # Invalid date format, ignore the filter
 
@@ -69,7 +72,7 @@ def ajax_search():
     products = products_pagination.items
     product_list = []
     for product in products:
-        first_image_url = url_for('static', filename='path/to/default/image.jpg') if not product.images else product.images[0].ImageURL
+        first_image_url = product.images[0].ImageURL
 
         product_data = {
             'id': product.ProductID,
@@ -96,3 +99,68 @@ def ajax_search():
     }
 
     return jsonify(product_list_with_pagination)
+
+@bp_products.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        product_name = request.form.get('product_name')
+        product_color = request.form.get('product_color')
+        description = request.form.get('description')
+        price = request.form.get('price')
+        condition = request.form.get('condition')
+        category_id = request.form.get('category')
+        is_sold = request.form.get('is_sold') == 'true'
+
+        # Handling file upload
+        image = request.files.get('image')
+        image_url = None
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            filepath = os.path.join('/app/static/images', filename)
+            image.save(filepath)
+            image_url = filepath  # Or URL, depending on how you handle static files
+
+        new_product = Product(
+            SellerID=current_user.UserID,
+            CategoryID=category_id,
+            ProductName=product_name,
+            ProductColor=product_color,
+            Description=description,
+            Price=float(price),
+            Condition=condition,
+            DatePosted=datetime.utcnow(),
+            IsSold=is_sold
+        )
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Optional: Create Image record if an image was uploaded
+        if image_url:
+            new_image = Image(ProductID=new_product.ProductID, ImageURL=image_url)
+            db.session.add(new_image)
+            db.session.commit()
+
+        flash('Product successfully posted!', 'success')
+        return redirect(url_for('products.index'))
+
+    categories = Category.query.all()
+    return render_template('list.html', categories=categories)
+
+@bp_products.route('/product/<int:product_id>', methods=['GET'])
+def product_details(product_id):
+    product = Product.query.get_or_404(product_id)
+    return render_template('details.html', product=product)
+
+
+
+
+
+
+# Helper function to validate file uploads
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+

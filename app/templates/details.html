@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="product-details-container">
+    <button id="back-button" class="btn btn-secondary">Back</button>
+    <div class="product-info">
+        <!-- Back Button -->
+
+        <h2>{{ product.ProductName }}</h2>
+        <p><strong>Color:</strong> {{ product.ProductColor }}</p>
+        <p><strong>Condition:</strong> {{ product.Condition }}</p>
+        <p><strong>Description:</strong> {{ product.Description }}</p>
+        <p><strong>Price:</strong> ${{ product.Price }}</p>
+        <p><strong>Date Posted:</strong> {{ product.DatePosted.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Seller:</strong> {{ product.seller.FirstName }} {{ product.seller.LastName }}</p>
+        <p><strong>Category:</strong> {{ product.category.CategoryName }}</p>
+        <p><strong>Pickup Location:</strong> {{ product.seller.addresses[0].Street }}, {{ product.seller.addresses[0].City }}</p>
+
+        <button class="contact-seller-btn">Contact Seller</button>
+    </div>
+    <div class="product-image">
+        <img src="{{product.images[0].ImageURL}}" alt="Product Image">
+    </div>
+</div>
+{% endblock %}
+
+

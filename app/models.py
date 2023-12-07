@@ -5,11 +5,13 @@ The database model
 from sqlalchemy import CheckConstraint, ForeignKey, UniqueConstraint
 from datetime import datetime
 from app import db
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     UserID = db.Column(db.Integer, primary_key=True)
+    NetID = db.Column(db.String(100))
     FirstName = db.Column(db.String(100))
     LastName = db.Column(db.String(100))
     Email = db.Column(db.String(100), unique=True)
@@ -21,6 +23,11 @@ class User(db.Model):
     notifications = db.relationship('Notification', backref='user', lazy=True)
     addresses = db.relationship('Address', backref='user', lazy=True)
 
+    # Add get_id method
+    def get_id(self):
+        return str(self.UserID)
+
+    
 class Product(db.Model):
     __tablename__ = 'products'
 

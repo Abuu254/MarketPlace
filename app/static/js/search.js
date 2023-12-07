@@ -105,17 +105,19 @@ $(document).ready(function() {
                 } else {
                     response.products.forEach(function(product) {
                         $(".products-container").append(`
+                        <a href="/product/${product.id}" class="product-card-link">
                             <div class="product-card">
                                 <img src="${product.image_url}" alt="Product Image">
                                 <div class="product-info">
                                     <h5>${product.name}</h5>
                                     <p class="color">Color: ${product.color}</p>
                                     <p class="condition">Condition: ${product.condition}</p>
-                                    <p class="date-posted">Posted on: ${product.date_posted}</p>
                                     <p class="price">$${product.price}</p>
                                 </div>
                             </div>
-                        `);
+                        </a>
+                    `);
+
                     });
 
                         // Update pagination

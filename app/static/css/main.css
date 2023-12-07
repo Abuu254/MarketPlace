@@ -1,20 +1,31 @@
 /* Additional custom styles */
 .header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: #f8f9fa;
-    padding: 10px 0;
+    padding: 10px 20px;
+    background-color: #f8f9fa; /* Light grey background */
+    font-size: 1.2em;
+    line-height: 1.2em;
+    font-weight: bold;
 }
-.logo-section {
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
+
+.logo-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; /* Center the logo */
 }
+
 .logo-section a {
     text-decoration: none;
-    color: inherit;
+    font-size: 24px;
+    color: #333; /* Dark text color for contrast */
+}
+
+.logo-section a {
+    text-decoration: none;
+    font-size: 24px;
+    color: #333; /* Dark text color for contrast */
 }
 
 .filter-section {
@@ -42,4 +53,27 @@
 
 .form-control {
     min-width: 150px;
+}
+
+.user-auth-links {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between elements */
+}
+
+.user-profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Circular profile image */
+    object-fit: cover; /* Ensures the image covers the area */
+}
+
+.user-auth-links a {
+    text-decoration: none;
+    color: #007bff; /* Bootstrap primary blue color for links */
+    font-size: 16px;
+}
+
+.user-auth-links a:hover {
+    color: #0056b3; /* Darker blue on hover */
 }
