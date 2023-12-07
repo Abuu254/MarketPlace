@@ -241,3 +241,43 @@
         margin-top: 20px;
     }
 }
+
+
+/* Styling for the product images container */
+.product-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Styling for the main product image */
+.main-image img {
+    width: 300px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ddd; /* A light border around the image */
+    border-radius: 4px; /* Optional: round corners */
+    padding: 5px; /* Some padding around the image */
+    margin-bottom: 15px; /* Space between the main image and thumbnails */
+}
+
+/* Styling for the image thumbnails */
+.image-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center thumbnails if they don't fill the full width */
+    gap: 10px; /* Space between thumbnails */
+}
+
+.image-thumbnails img.thumbnail {
+    width: 60px; /* Smaller width for thumbnails */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 4px; /* Optional: round corners */
+    cursor: pointer; /* Change cursor to indicate clickable */
+    transition: transform 0.2s ease; /* Smooth transform effect on hover */
+}
+
+.image-thumbnails img.thumbnail:hover {
+    transform: scale(1.1); /* Slightly enlarge thumbnail on hover */
+}

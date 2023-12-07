@@ -18,10 +18,28 @@
 
         <button class="contact-seller-btn">Contact Seller</button>
     </div>
-    <div class="product-image">
-        <img src="{{product.images[0].ImageURL}}" alt="Product Image">
+    <div class="product-images">
+        <!-- Larger main image -->
+        <div class="main-image">
+            <img id="main-product-image" src="{{ images[0].ImageURL }}" alt="Main Product Image">
+        </div>
+
+        <!-- Thumbnails of other images -->
+        <div class="image-thumbnails">
+            {% for image in images %}
+                <img class="thumbnail" src="{{ image.ImageURL }}" alt="Product Thumbnail" onclick="changeImage('{{ image.ImageURL }}')">
+            {% endfor %}
+        </div>
     </div>
 </div>
+
+<script>
+    function changeImage(src) {
+        // Change the source of the main image to the source of the clicked thumbnail
+        document.getElementById('main-product-image').src = src;
+    }
+</script>
+
 {% endblock %}
 
 

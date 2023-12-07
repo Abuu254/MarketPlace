@@ -12,6 +12,7 @@ from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 import os
 from flask_login import login_required
+import ast
 
 @bp_products.route('/')
 @bp_products.route('/index', methods=['GET'])
@@ -72,7 +73,8 @@ def ajax_search():
     products = products_pagination.items
     product_list = []
     for product in products:
-        first_image_url = product.images[0].ImageURL
+        images = Image.query.filter(Image.ProductID == product.ProductID).all()
+        first_image_url = images[0].ImageURL
 
         product_data = {
             'id': product.ProductID,
@@ -150,7 +152,8 @@ def create():
 @bp_products.route('/product/<int:product_id>', methods=['GET'])
 def product_details(product_id):
     product = Product.query.get_or_404(product_id)
-    return render_template('details.html', product=product)
+    images = Image.query.filter(Image.ProductID == product_id).all()
+    return render_template('details.html', product=product, images = images)
 
 
 
